@@ -1,0 +1,99 @@
+{% load static %}
+<html>
+    <head>
+        <title>Missing Child App</title>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <link rel="stylesheet" type="text/css" href="{% static 'style1.css' %}"/>
+        <link rel="stylesheet" href="../static/style1.css">
+        <script src="https://kit.fontawesome.com/8c15bc3100.js" crossorigin="anonymous"></script>
+        <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@300;400&family=Grape+Nuts&family=Roboto:wght@300&display=swap" rel="stylesheet">
+		<script>
+			function validate(){
+				var x=document.forms["form"]["username"].value;
+				var y=document.forms["form"]["password"].value;
+	
+				if(x == null || x==""){
+					window.alert("Username must be enter");
+					document.f1.username.focus();
+					return false;
+				}
+
+				if(y == null || y==""){
+					window.alert("Password must be enter");
+					document.f1.password.focus();
+					return false;
+				}
+
+				return true;
+			}
+		</script>
+    </head>
+    <body>
+        <div class="page-wrapper">
+            <div class="nav-wrapper">
+                <div class="grad-bar"></div>
+                <nav class="navbar">
+                    <h3>Safe Track</h3>
+                    <div class="menu-toggle" id="mobile-menu">
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                      <span class="bar"></span>
+                    </div>
+                    <ul class="nav">
+                      <li class="nav-item"><a href="{% url 'index' %}">Home</a></li>
+                      <li class="nav-item"><a href="{% url 'Upload' %}">Upload</a></li>
+                      <li class="nav-item"><a href="{% url 'Login' %}">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+             <section class="headline">
+               <h1>Missing Child Identification System</h1>
+               <p>using Deep Learning and Multiclass SVM</p>
+             </section>
+             <section class="form">
+				<h2>Official Login Page</h2>
+				<form name="form" method="post" action="{% url 'OfficialLogin' %}" onsubmit="return validate();">
+					{% csrf_token %}<br/>
+					<font size="" color="black"><center>{{ data }}</center></font>
+					<div class="form-control">
+						<label for="username" id="username-label">Name:</label>             
+						<input name="t1" type="text" id="username" placeholder="Enter Username" required/>
+					</div>  
+					<div class="form-control">
+						<label for="password" id="password-label">Password:</label>           
+						<input name="t2" type="password" id="password" placeholder="Enter Password" required/>
+					</div>
+					<!-- <button type="submit" id="submit">Login</button> -->
+					<input class="btn" type="submit" value="Login">
+				</form>
+			 </section>
+             <footer>
+                <div class="footer-content">
+                    <div class="footer-header">
+                        <h4>Safe Track</h4>
+                        <p>Safe track is a  ---  source code.</p>
+                    </div>
+                    <ul class="socials">
+                        <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                        <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                        <li><a href="#"><i class="fa fa-linkedin-square"></i></a></li>
+                    </ul>
+                </div>
+                <div class="footer-bottom">
+                    <p>copyright &copy;2022 <a href="#">safetrack</a></p>
+                    <div class="footer-menu">
+                        <ul class="f-menu">
+                           <li>Mani</li>
+                           <li>Ravi</li>
+                           <li>Kiran</li>
+                           <li>Nikith</li>
+                        </ul>
+                    </div>
+                 </div>
+             </footer>
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    </body>
+</html>

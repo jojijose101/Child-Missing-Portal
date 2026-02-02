@@ -1,0 +1,26 @@
+<h2>Add Missing Child (Admin)</h2>
+
+{% if error %}
+  <p style="color:red;">{{ error }}</p>
+{% endif %}
+{% if msg %}
+  <p style="color:green;">{{ msg }}</p>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <label>Name:</label><br>
+  <input type="text" name="name" required><br><br>
+
+  <label>Age:</label><br>
+  <input type="number" name="age"><br><br>
+
+  <label>Last Seen Location:</label><br>
+  <input type="text" name="location" required><br><br>
+
+  <label>Photo:</label><br>
+  <input type="file" name="image" accept="image/*" required><br><br>
+
+  <button type="submit">Save</button>
+</form>

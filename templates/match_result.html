@@ -1,0 +1,19 @@
+<h2>Result</h2>
+
+<p>Uploaded image:</p>
+<img src="{{ uploaded_image }}" width="250">
+
+{% if matched %}
+  <h3 style="color:green;">✅ MATCH FOUND</h3>
+  <p><b>Name:</b> {{ child.name }}</p>
+  <p><b>Age:</b> {{ child.age }}</p>
+  <p><b>Last Seen Location:</b> {{ child.location }}</p>
+  <p><b>Status:</b> {{ child.status }}</p>
+  <p><b>Distance:</b> {{ distance }}</p>
+
+  <p>Database image:</p>
+  <img src="{{ child.image.url }}" width="250">
+{% else %}
+  <h3 style="color:orange;">❌ NO MATCH FOUND</h3>
+  <p><b>Distance:</b> {{ distance }}</p>
+{% endif %}
