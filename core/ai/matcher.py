@@ -14,11 +14,10 @@ def find_best_match(query_embedding, children_qs, threshold=1.0):
             continue
 
         dist = np.linalg.norm(db_emb - query_embedding)
-        print(f"Comparing with {child.name}, Distance: {dist:.4f}")
+ 
 
         if dist < best_dist:
             best_dist = dist
-            print(f"New best match: {child.name} with distance {best_dist:.4f}")
             best_child = child
 
     if best_child and best_dist < threshold:

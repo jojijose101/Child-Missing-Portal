@@ -1,0 +1,56 @@
+<!-- Cyberpunk Navbar -->
+<header class="cp-nav-wrap">
+  <nav class="cp-nav" aria-label="Primary Navigation">
+    <a href="{% url 'station_dashboard' %}" class="cp-brand" aria-label="Home">
+      <span class="cp-brand-mark">⚡</span>
+      <span class="cp-brand-text">CHILD<span class="cp-accent">FIND</span></span>
+    </a>
+
+    <button class="cp-burger" type="button"
+            aria-label="Toggle menu"
+            aria-controls="cpNavMenu"
+            aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <div class="cp-menu" id="cpNavMenu">
+      <a class="cp-link" href="{% url 'station_reports' %}">🔔 Reports ({{ new_matches }} new)</a>
+      {% comment %} <a class="cp-link" href="/missing/">Missing List</a>
+      <a class="cp-link" href="/how-it-works/">How It Works</a> {% endcomment %}
+      <a class="cp-link" href="{% url 'station_graph_report' %}">📊 Graph Report</a>
+      <form class="cp-search"  method="get" role="search">
+    <span class="cp-search-ico" aria-hidden="true">⌕</span>
+    <input
+      class="cp-search-input"
+      type="search"
+      value="{{ q|default:'' }}"
+      name="q"
+      placeholder="Search name / case ID / area…"
+      autocomplete="off"
+    />
+    <button class="cp-search-btn" type="submit">Search</button>
+   
+  </form>
+  <div class="cp-actions">
+{% if not show_found %}
+    <a class="cp-btn cp-btn-ghost" href="?show_found=1" style="margin-left:10px;">Show FOUND</a>
+  {% else %}
+    <a class="cp-btn cp-btn-ghost" href="{% url 'station_dashboard' %}" style="margin-left:10px;">Hide FOUND</a>
+  {% endif %}
+  </div>
+      <div class="cp-actions">
+        <a class="cp-btn cp-btn-ghost" href="{% url 'station_logout' %}">Logout</a>
+        <a class="cp-btn" href="{% url 'station_add_case' %}">Report Missing</a>
+      </div>
+    </div>
+  </nav>
+</header>
+
+
+
+
+
+
+
+
+

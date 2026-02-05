@@ -1,0 +1,154 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Graph Report{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/chart.css' %}">
+  <link rel="stylesheet" href="{% static 'css/cs_details.css' %}">
+  <link rel="stylesheet" href="{% static 'css/rp_details.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+{% block content %}
+
+
+<div class="cp-dashboard">
+
+  <!-- Back -->
+  <div class="cp-detail-top">
+    <a href="{% url 'station_dashboard' %}" class="cp-back">
+      ← Back to Dashboard
+    </a>
+  </div>
+
+  <div class="cp-dash-header">
+    <h2>📊 Analytics</h2>
+    <div class="cp-dash-sub">
+      Case status & report activity overview
+    </div>
+  </div>
+
+  <!-- Charts Grid -->
+  <div class="cp-grid-2">
+
+    <!-- Cases Chart -->
+    <div class="cp-card">
+      <div class="cp-card-h">
+        <span>Cases Status</span>
+        <span class="cp-mini">Current</span>
+      </div>
+      <canvas id="casesChart" height="220"></canvas>
+    </div>
+
+    <!-- Reports Chart -->
+    <div class="cp-card">
+      <div class="cp-card-h">
+        <span>Matched Reports</span>
+        <span class="cp-mini">Last 7 days</span>
+      </div>
+      <canvas id="reportsChart" height="220"></canvas>
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- Chart.js CDN -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // ===== GLOBAL CHART STYLE =====
+  Chart.defaults.color = "rgba(233,236,255,.75)";
+  Chart.defaults.font.family = "ui-sans-serif, system-ui";
+  Chart.defaults.font.size = 12;
+
+  // ===== CASES BAR CHART =====
+  const casesCtx = document.getElementById('casesChart');
+
+  new Chart(casesCtx, {
+    type: 'bar',
+    data: {
+      labels: ['Missing', 'Found'],
+      datasets: [{
+        label: 'Cases',
+        data: [{{ missing_count }}, {{ found_count }}],
+        backgroundColor: [
+          'rgba(180,180,180,.65)',   // missing
+          'rgba(107,255,143,.75)'    // found
+        ],
+        borderColor: [
+          'rgba(180,180,180,1)',
+          'rgba(107,255,143,1)'
+        ],
+        borderWidth: 1,
+        borderRadius: 10
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(10,12,28,.95)',
+          borderColor: 'rgba(0,255,213,.35)',
+          borderWidth: 1
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,.05)' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(255,255,255,.05)' }
+        }
+      }
+    }
+  });
+
+  // ===== REPORTS LINE CHART =====
+  const labels = {{ labels|safe }};
+  const values = {{ values|safe }};
+
+  const reportsCtx = document.getElementById('reportsChart');
+
+  new Chart(reportsCtx, {
+    type: 'line',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Matched Reports',
+        data: values,
+        borderColor: 'rgba(255,43,214,1)',
+        backgroundColor: 'rgba(255,43,214,.18)',
+        tension: 0.35,
+        fill: true,
+        pointRadius: 5,
+        pointBackgroundColor: 'rgba(255,43,214,1)',
+        pointHoverRadius: 7
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: {
+          backgroundColor: 'rgba(10,12,28,.95)',
+          borderColor: 'rgba(255,43,214,.45)',
+          borderWidth: 1
+        }
+      },
+      scales: {
+        x: {
+          grid: { color: 'rgba(255,255,255,.05)' }
+        },
+        y: {
+          beginAtZero: true,
+          grid: { color: 'rgba(255,255,255,.05)' }
+        }
+      }
+    }
+  });
+</script>
+
+{% endblock %}

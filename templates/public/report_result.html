@@ -1,0 +1,117 @@
+{% extends "usr_base.html" %}
+{% load static %}
+{% block title %}Report Result{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/usr_style.css' %}">
+  <link rel="stylesheet" href="{% static 'css/usr_result.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="ux-wrap">
+  <div class="ux-card ux-result">
+
+    <div class="ux-head">
+      <h2>Report Result</h2>
+      <p class="ux-sub">Match scan completed</p>
+    </div>
+
+    <div class="ux-pill-row">
+      <span class="ux-pill">DISTANCE</span>
+      <span class="ux-pill ux-pill-val">{{ distance|floatformat:4 }}</span>
+    </div>
+
+    {% if matched %}
+      <div class="ux-status ux-ok">✅ MATCH FOUND</div>
+
+      <div class="ux-grid2">
+
+        <!-- Matched Case -->
+        <div class="ux-block">
+          <div class="ux-block-h">
+            <span>Matched Case</span>
+            {% if child.status == "found" %}
+              <span class="ux-badge ux-found">FOUND</span>
+            {% else %}
+              <span class="ux-badge ux-missing">MISSING</span>
+            {% endif %}
+          </div>
+
+          <div class="ux-kv">
+            <div class="ux-row"><span>Child Name</span><b>{{ child.child_name }}</b></div>
+            <div class="ux-row"><span>Last Seen</span><b>{{ child.last_seen_location }}</b></div>
+            <div class="ux-row"><span>Status</span>
+              <b>
+                {% if child.status == "found" %}
+                  FOUND
+                {% else %}
+                  MISSING
+                {% endif %}
+              </b>
+            </div>
+          </div>
+
+          <div class="ux-img-wrap">
+            <div class="ux-img-title">Case Image</div>
+            <img src="{{ child.image.url }}" class="ux-img" alt="Matched case image" data-zoom="{{ child.image.url }}">
+            <div class="ux-img-actions">
+              <a class="ux-mini-btn" href="{{ child.image.url }}" download>Download</a>
+              <button type="button" class="ux-mini-btn" data-zoom="{{ child.image.url }}">Zoom</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Station Contact -->
+        <div class="ux-block">
+          <div class="ux-block-h">
+            <span>Police Station Contact</span>
+            <span class="ux-badge ux-station">STATION</span>
+          </div>
+
+          <div class="ux-kv">
+            <div class="ux-row"><span>Station</span><b>{{ station.name }}</b></div>
+
+            <div class="ux-row">
+              <span>Phone</span>
+              <b id="uxStationPhone">{{ station.phone }}</b>
+            </div>
+
+            <div class="ux-actions">
+              <button type="button" class="ux-mini-btn" id="uxCopyPhone">Copy</button>
+              <a class="ux-mini-btn" href="tel:{{ station.phone }}">Call</a>
+              <a class="ux-mini-btn" target="_blank" rel="noopener"
+                 href="https://wa.me/{{ station.phone|cut:' ' }}">
+                WhatsApp
+              </a>
+            </div>
+
+            <div class="ux-row"><span>Address</span><b>{{ station.address }}</b></div>
+
+            {% if station.email %}
+              <div class="ux-row"><span>Email</span><b>{{ station.email }}</b></div>
+            {% endif %}
+          </div>
+
+          <div class="ux-note">
+            ✅ Please contact the station immediately and share this report reference.
+          </div>
+        </div>
+
+      </div>
+
+    {% else %}
+      <div class="ux-status ux-warn">❌ NO MATCH FOUND</div>
+      <p class="ux-text">Your report is saved. Police may review it later.</p>
+    {% endif %}
+
+  </div>
+</div>
+
+<!-- Zoom Modal -->
+<div class="ux-modal" id="uxModal" aria-hidden="true">
+  <div class="ux-modal-inner">
+    <button class="ux-modal-close" type="button" id="uxModalClose">✕</button>
+    <img id="uxModalImg" alt="Zoomed image">
+  </div>
+</div>
+<script src="{% static 'js/usr_result.js' %}"></script>
+{% endblock %}

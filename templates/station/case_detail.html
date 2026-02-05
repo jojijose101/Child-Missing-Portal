@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Case Detail{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="{% static 'css/rp_details.css' %}">
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/cs_details.css' %}">
+
+{% endblock %}
+{% block content %}
+
+
+<div class="cp-dashboard">
+
+  <!-- Top nav -->
+  <div class="cp-detail-top">
+    <a href="{% url 'station_dashboard' %}" class="cp-back">← Back to Dashboard</a>
+    <div class="cp-top-links">
+      <a href="{% url 'station_reports' %}" class="cp-link2">Reports</a>
+    </div>
+  </div>
+
+  <div class="cp-dash-header">
+    <h2>Case Detail</h2>
+    <div class="cp-dash-sub">Case info + matched public reports</div>
+  </div>
+
+  <!-- Case card -->
+  <div class="cp-grid-2">
+
+    <div class="cp-card">
+      <div class="cp-card-h">
+        <span>Child Info</span>
+        {% if case.status == "found" %}
+          <span class="cp-badge cp-found">FOUND</span>
+        {% else %}
+          <span class="cp-badge cp-missing">MISSING</span>
+        {% endif %}
+      </div>
+
+      <div class="cp-kv">
+        <div class="cp-row"><span>Name</span><b>{{ case.child_name }}</b></div>
+        <div class="cp-row"><span>Age</span><b>{{ case.age|default:"-" }}</b></div>
+        <div class="cp-row"><span>Last Seen</span><b>{{ case.last_seen_location }}</b></div>
+        <div class="cp-row"><span>Details</span><b>{{ case.details|default:"-" }}</b></div>
+      </div>
+    </div>
+
+    <div class="cp-card">
+      <div class="cp-card-h">
+        <span>Case Photo</span>
+        <span class="cp-mini">Click to zoom</span>
+      </div>
+
+      <img
+        src="{{ case.image.url }}"
+        alt="Case photo"
+        class="cp-img cp-img-tall"
+        data-full="{{ case.image.url }}"
+      >
+
+      <div class="cp-img-actions">
+        <a class="cp-mini-btn" href="{{ case.image.url }}" download>Download</a>
+        <button class="cp-mini-btn" type="button" data-zoom="{{ case.image.url }}">Zoom</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Matched reports -->
+  <div class="cp-card cp-mt">
+    <div class="cp-card-h">
+      <span>Matched Reports</span>
+      <span class="cp-mini">Click row to open report</span>
+    </div>
+
+    <div class="cp-table-wrap">
+      <table class="cp-table">
+        <thead>
+          <tr>
+            <th>Reporter</th>
+            <th>Phone</th>
+            <th>Found Location</th>
+            <th>Distance</th>
+            <th>Status</th>
+            <th>Date</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {% for r in reports %}
+          <tr onclick="window.location='{% url 'station_report_detail' r.id %}'">
+            <td class="cp-child">{{ r.reporter_name }}</td>
+            <td>{{ r.reporter_phone }}</td>
+            <td>{{ r.found_location }}</td>
+            <td class="cp-distance-text">{{ r.distance|floatformat:4 }} km</td>
+            <td>
+              {% if not r.is_seen_by_station %}
+                <span class="cp-badge cp-new-badge">NEW</span>
+              {% else %}
+                <span class="cp-badge cp-seen">SEEN</span>
+              {% endif %}
+            </td>
+            <td class="cp-date">{{ r.created_at|date:"d M Y, H:i" }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6" class="cp-empty">
+              No matched reports yet for this case.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Mark Found -->
+  <div class="cp-card cp-mt">
+    <div class="cp-card-h">
+      <span>Case Actions</span>
+      <span class="cp-mini">Close case when confirmed</span>
+    </div>
+
+    {% if case.status != "found" %}
+      <form method="post"
+            action="{% url 'station_case_mark_found' case.id %}"
+            class="cp-action-form"
+            onsubmit="return confirm('Confirm: Mark as FOUND?\n\nThis action will close the case and hide NEW notifications for it.');">
+        {% csrf_token %}
+        <button type="submit" class="cp-btn-danger">
+          ✅ Mark as FOUND
+        </button>
+      </form>
+    {% else %}
+      <div class="cp-alert cp-alert-success">
+        ✅ This case is marked as FOUND.
+      </div>
+    {% endif %}
+  </div>
+
+</div>
+
+<!-- Zoom Modal -->
+<div class="cp-modal" id="cpModal" aria-hidden="true">
+  <div class="cp-modal-inner">
+    <button class="cp-modal-close" type="button" id="cpModalClose">✕</button>
+    <img id="cpModalImg" alt="Zoomed image">
+  </div>
+</div>
+
+<script src="{% static 'js/rp_details.js' %}"></script>
+{% endblock%}

@@ -1,0 +1,22 @@
+/* ===== CHARTS ===== */
+
+.cp-card canvas{
+  margin-top: 10px;
+}
+
+/* Slight glow around charts */
+.cp-card{
+  position: relative;
+}
+
+.cp-card::after{
+  content:"";
+  position:absolute;
+  inset: -2px;
+  border-radius: 20px;
+  background:
+    radial-gradient(300px 120px at 20% 0%, rgba(0,255,213,.18), transparent 60%),
+    radial-gradient(260px 120px at 80% 10%, rgba(255,43,214,.16), transparent 60%);
+  pointer-events:none;
+  opacity:.6;
+}

@@ -1,0 +1,142 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Matched Report Details{% endblock %}
+{% block content %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/reports_list.css' %}">
+  <link rel="stylesheet" href="{% static 'css/rp_details.css' %}">
+{% endblock %}
+{% load static %}
+
+<div class="cp-dashboard">
+
+  <!-- Top nav -->
+  <div class="cp-detail-top">
+    <a href="{% url 'station_reports' %}" class="cp-back">← Back to Reports</a>
+    <div class="cp-top-links">
+      <a href="{% url 'station_dashboard' %}" class="cp-link2">Dashboard</a>
+    </div>
+  </div>
+
+  <div class="cp-dash-header">
+    <h2>Report Detail</h2>
+    <div class="cp-dash-sub">Matched report + case information</div>
+  </div>
+
+  <div class="cp-grid-2">
+
+    <!-- Reporter Card -->
+    <div class="cp-card">
+      <div class="cp-card-h">
+        <span>Reporter Info</span>
+        {% if not report.is_seen_by_station %}
+          <span class="cp-badge cp-new-badge">NEW</span>
+        {% else %}
+          <span class="cp-badge cp-seen">SEEN</span>
+        {% endif %}
+      </div>
+
+      <div class="cp-kv">
+        <div class="cp-row"><span>Name</span><b>{{ report.reporter_name }}</b></div>
+
+        <div class="cp-row">
+          <span>Phone</span>
+          <b id="cpPhone">{{ report.reporter_phone }}</b>
+        </div>
+
+        <div class="cp-actions-mini">
+          <button type="button" class="cp-mini-btn" id="cpCopyPhone">Copy</button>
+          <a class="cp-mini-btn" href="tel:{{ report.reporter_phone }}">Call</a>
+          <a class="cp-mini-btn" target="_blank" rel="noopener"
+             href="https://wa.me/{{ report.reporter_phone|cut:' ' }}">
+            WhatsApp
+          </a>
+        </div>
+
+        <div class="cp-row"><span>Found Location</span><b>{{ report.found_location }}</b></div>
+        <div class="cp-row"><span>Notes</span><b>{{ report.notes|default:"-" }}</b></div>
+        <div class="cp-row"><span>Date</span><b class="cp-date">{{ report.created_at|date:"d M Y, H:i" }}</b></div>
+      </div>
+    </div>
+
+    <!-- Match Card -->
+    <div class="cp-card">
+      <div class="cp-card-h">
+        <span>Match Info</span>
+        <span class="cp-badge cp-distance">{{ report.distance|floatformat:4 }}</span>
+      </div>
+
+      <div class="cp-kv">
+        <div class="cp-row"><span>Matched Child</span><b>{{ report.matched_case.child_name }}</b></div>
+        <div class="cp-row"><span>Last Seen</span><b>{{ report.matched_case.last_seen_location }}</b></div>
+        <div class="cp-row">
+          <span>Case Status</span>
+          {% if report.matched_case.status == "found" %}
+            <b><span class="cp-badge cp-found">FOUND</span></b>
+          {% else %}
+            <b><span class="cp-badge cp-missing">MISSING</span></b>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Images -->
+  <div class="cp-card cp-mt">
+    <div class="cp-card-h">
+      <span>Images</span>
+      <span class="cp-mini">Click image to zoom</span>
+    </div>
+
+    <div class="cp-img-grid">
+      <!-- User image -->
+      <div class="cp-img-card">
+        <div class="cp-img-title">User Uploaded Image</div>
+
+        <img
+          src="{{ report.image.url }}"
+          alt="User uploaded"
+          class="cp-img"
+          data-full="{{ report.image.url }}"
+        >
+
+        <div class="cp-img-actions">
+          <a class="cp-mini-btn" href="{{ report.image.url }}" download>Download</a>
+          <button class="cp-mini-btn" type="button" data-zoom="{{ report.image.url }}">Zoom</button>
+        </div>
+      </div>
+
+      <!-- Case image -->
+      <div class="cp-img-card">
+        <div class="cp-img-title">Case Image</div>
+
+        <img
+          src="{{ report.matched_case.image.url }}"
+          alt="Case image"
+          class="cp-img"
+          data-full="{{ report.matched_case.image.url }}"
+        >
+
+        <div class="cp-img-actions">
+          <a class="cp-mini-btn" href="{{ report.matched_case.image.url }}" download>Download</a>
+          <button class="cp-mini-btn" type="button" data-zoom="{{ report.matched_case.image.url }}">Zoom</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Zoom Modal -->
+<div class="cp-modal" id="cpModal" aria-hidden="true">
+  <div class="cp-modal-inner">
+    <button class="cp-modal-close" type="button" id="cpModalClose">✕</button>
+    <img id="cpModalImg" alt="Zoomed image">
+  </div>
+</div>
+
+<script src="{% static 'js/rp_details.js' %}"></script>
+{% endblock %}

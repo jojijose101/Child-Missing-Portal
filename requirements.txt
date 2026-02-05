@@ -1,0 +1,14 @@
+Django==6.0.1
+asgiref==3.11.0
+sqlparse==0.5.5
+tzdata==2025.3
+PyMySQL==1.1.2     
+tensorflow==2.20.0
+keras==3.13.2
+keras-facenet==0.3.2
+mtcnn==1.0.0
+numpy==2.4.1
+scipy==1.17.0
+opencv-python==4.13.0.90
+pillow==12.1.0
+requests==2.32.5

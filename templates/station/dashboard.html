@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}{{ station.name }} Dashboard{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+{% endblock %}
+{% block content %}
+
+
+<div class="cp-dashboard">
+
+  <!-- Header -->
+  <div class="cp-dash-header">
+    <h2>{{ station.name }} Dashboard</h2>
+    <div class="cp-dash-sub">
+      Monitoring missing child cases
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="cp-stats">
+    <div class="cp-stat">
+      <span class="cp-stat-num">{{ total_cases }}</span>
+      <span class="cp-stat-label">TOTAL</span>
+    </div>
+    <div class="cp-stat">
+      <span class="cp-stat-num">{{ total_missing }}</span>
+      <span class="cp-stat-label">MISSING</span>
+    </div>
+    <div class="cp-stat cp-stat-found">
+      <span class="cp-stat-num">{{ total_found }}</span>
+      <span class="cp-stat-label">FOUND</span>
+    </div>
+    <div class="cp-stat cp-stat-alert">
+      <span class="cp-stat-num">{{ new_matches }}</span>
+      <span class="cp-stat-label">NEW MATCHES</span>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="cp-table-wrap">
+    <table class="cp-table">
+      <thead>
+        <tr>
+          <th>Child</th>
+          <th>Last Seen</th>
+          <th>Status</th>
+          <th>Matches</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for c in cases %}
+        <tr onclick="window.location='{% url 'station_case_detail' c.id %}'">
+          <td class="cp-child">{{ c.child_name }}</td>
+          <td>{{ c.last_seen_location }}</td>
+          <td>
+            {% if c.status == "found" %}
+              <span class="cp-badge cp-found">FOUND</span>
+            {% else %}
+              <span class="cp-badge cp-missing">MISSING</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if c.new_match_count > 0 %}
+              <span class="cp-new">{{ c.new_match_count }} NEW</span>
+            {% else %}
+              <span class="cp-muted">0</span>
+            {% endif %}
+          </td>
+          <td class="cp-date">{{ c.created_at|date:"d M Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="cp-empty">
+            No cases added yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Actions -->
+  <div class="cp-dash-actions">
+    <a class="cp-btn" href="{% url 'station_export_cases_csv' %}?q={{ q }}{% if show_found %}&show_found=1{% endif %}">
+      ⬇ Export CSV
+    </a>
+  </div>
+
+</div>
+
+
+{% endblock %}

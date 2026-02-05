@@ -1,0 +1,51 @@
+/* ===== MATCHED REPORTS EXTRAS ===== */
+
+/* NEW badge (alert pulse) */
+.cp-new-badge{
+  background: rgba(255,43,214,.18);
+  color: var(--neon2);
+  border: 1px solid rgba(255,43,214,.55);
+  box-shadow: 0 0 18px rgba(255,43,214,.45);
+  animation: cpPulse 1.2s infinite ease-in-out;
+}
+
+@keyframes cpPulse{
+  0%{ box-shadow: 0 0 6px rgba(255,43,214,.35); }
+  50%{ box-shadow: 0 0 20px rgba(255,43,214,.75); }
+  100%{ box-shadow: 0 0 6px rgba(255,43,214,.35); }
+}
+
+/* Seen badge */
+.cp-seen{
+  background: rgba(0,255,213,.12);
+  color: var(--neon1);
+  border: 1px solid rgba(0,255,213,.35);
+}
+
+/* Improve phone readability */
+.cp-table td:nth-child(2){
+  letter-spacing: .08em;
+  font-weight: 700;
+}
+
+/* Distance subtle highlight */
+.cp-table td:nth-child(5){
+  color: #ffe74a;
+  font-weight: 700;
+}
+
+/* Row hover stronger for reports */
+.cp-table tbody tr:hover{
+  background:
+    linear-gradient(90deg,
+      rgba(255,43,214,.08),
+      rgba(0,255,213,.08)
+    );
+}
+
+/* Header tweak */
+.cp-dash-header h2{
+  text-shadow:
+    0 0 18px rgba(0,255,213,.35),
+    0 0 22px rgba(255,43,214,.25);
+}

@@ -1,0 +1,93 @@
+{% extends "usr_base.html" %}
+{% block title %}Report Result{% endblock %}
+
+{% block content %}
+{% load static %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/usr_style.css' %}">
+{% endblock %}
+<div class="ux-wrap">
+  <div class="ux-card">
+
+    <div class="ux-head">
+      <h2>🛰 Report a Suspected Missing Child</h2>
+      <p class="ux-sub">Upload a photo and details. System will run a match scan.</p>
+    </div>
+
+    {% if error %}
+      <div class="ux-alert ux-alert-error">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="ux-form" id="uxReportForm">
+      {% csrf_token %}
+
+      <div class="ux-field">
+        <input type="text" name="reporter_name" required placeholder=" ">
+        <label>Your Name</label>
+      </div>
+
+      <div class="ux-field">
+        <input type="text" name="reporter_phone" required placeholder=" ">
+        <label>Your Phone Number</label>
+      </div>
+
+      <div class="ux-field">
+        <input type="text" name="found_location" required placeholder=" ">
+        <label>Where you found the child</label>
+      </div>
+
+      <div class="ux-field">
+        <textarea name="notes" rows="3" placeholder=" "></textarea>
+        <label>Extra notes (optional)</label>
+      </div>
+
+      <!-- Cyber Upload -->
+      <div class="ux-upload">
+        <input type="file" name="image" id="uxImage" accept="image/*" required>
+        <label for="uxImage">
+          <span class="ux-upload-top">
+            <span class="ux-chip">UPLOAD</span>
+            <span class="ux-chip ux-chip2">SCAN</span>
+          </span>
+          <span class="ux-upload-mid">Tap to upload child photo</span>
+          <span class="ux-upload-sub">JPG / PNG • clear face preferred</span>
+        </label>
+      </div>
+
+      <button type="submit" class="ux-btn">
+        Upload & Check Match
+      </button>
+
+      <p class="ux-mini">
+        ⚠ If this is urgent, please contact the nearest police station immediately.
+      </p>
+    </form>
+
+  </div>
+</div>
+
+<!-- CYBER MATCHING OVERLAY -->
+<div class="ux-match" id="uxMatch" aria-hidden="true">
+  <div class="ux-match-card" role="status" aria-live="polite">
+    <div class="ux-match-title">CYBER MATCHING</div>
+
+    <div class="ux-scanbox">
+      <div class="ux-scanline"></div>
+      <div class="ux-grid"></div>
+      <div class="ux-target"></div>
+    </div>
+
+    <div class="ux-match-steps">
+      <div class="ux-step"><span class="ux-dot"></span> Uploading image…</div>
+      <div class="ux-step"><span class="ux-dot"></span> Extracting face features…</div>
+      <div class="ux-step"><span class="ux-dot"></span> Comparing with cases…</div>
+      <div class="ux-step"><span class="ux-dot"></span> Generating match result…</div>
+    </div>
+
+    <div class="ux-progress">
+      <span class="ux-progress-bar"></span>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/usr_upload.js' %}"></script>
+{% endblock %}

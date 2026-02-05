@@ -1,0 +1,198 @@
+/* ===== DETAIL PAGE ===== */
+.cp-detail-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.cp-link2{
+  text-decoration:none;
+  color: rgba(233,236,255,.75);
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,255,213,.18);
+  background: rgba(7,8,18,.45);
+}
+.cp-link2:hover{ background: rgba(0,255,213,.06); color: var(--text); }
+
+.cp-grid-2{
+  margin-top: 18px;
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 900px){
+  .cp-grid-2{ grid-template-columns: 1fr; }
+}
+
+.cp-card{
+  border-radius: 18px;
+  padding: 16px;
+  background: linear-gradient(180deg, rgba(15,18,40,.9), rgba(10,12,28,.8));
+  border: 1px solid rgba(0,255,213,.22);
+  box-shadow: 0 0 0 1px rgba(255,43,214,.08) inset;
+}
+
+.cp-card-h{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-weight: 900;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(233,236,255,.8);
+}
+
+.cp-kv .cp-row{
+  display:flex;
+  justify-content:space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.cp-kv .cp-row:last-child{ border-bottom:none; }
+
+.cp-kv .cp-row span{
+  color: rgba(233,236,255,.55);
+  font-size: 12px;
+  letter-spacing:.06em;
+}
+.cp-kv .cp-row b{
+  color: var(--text);
+  font-size: 13px;
+  text-align:right;
+  max-width: 65%;
+}
+
+.cp-actions-mini{
+  display:flex;
+  gap: 10px;
+  margin: 10px 0 6px;
+  flex-wrap:wrap;
+}
+
+.cp-mini-btn{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding: 9px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(0,255,213,.22);
+  background: rgba(7,8,18,.45);
+  color: var(--text);
+  text-decoration:none;
+  cursor:pointer;
+  font-weight: 800;
+  letter-spacing:.08em;
+  font-size: 12px;
+}
+.cp-mini-btn:hover{
+  background: rgba(0,255,213,.06);
+  border-color: rgba(0,255,213,.45);
+}
+
+.cp-distance{
+  background: rgba(255,231,74,.12);
+  color: #ffe74a;
+  border: 1px solid rgba(255,231,74,.35);
+}
+
+/* Images grid */
+.cp-mt{ margin-top: 14px; }
+
+.cp-img-grid{
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+@media (max-width: 900px){
+  .cp-img-grid{ grid-template-columns: 1fr; }
+}
+
+.cp-img-card{
+  border-radius: 16px;
+  padding: 14px;
+  background: rgba(7,8,18,.45);
+  border: 1px solid rgba(0,255,213,.18);
+}
+
+.cp-img-title{
+  font-weight: 900;
+  letter-spacing:.12em;
+  text-transform: uppercase;
+  font-size: 12px;
+  color: rgba(233,236,255,.75);
+  margin-bottom: 10px;
+}
+
+.cp-img{
+  width: 100%;
+  height: 280px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.08);
+  box-shadow: 0 0 18px rgba(0,255,213,.12);
+  cursor: zoom-in;
+  transition: .18s ease;
+}
+.cp-img:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 0 22px rgba(255,43,214,.18), 0 0 22px rgba(0,255,213,.18);
+}
+
+.cp-img-actions{
+  display:flex;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap:wrap;
+}
+
+/* Modal zoom */
+.cp-modal{
+  position: fixed;
+  inset: 0;
+  display:none;
+  place-items:center;
+  background: rgba(0,0,0,.72);
+  backdrop-filter: blur(10px);
+  z-index: 99999;
+}
+.cp-modal.is-show{ display:grid; }
+
+.cp-modal-inner{
+  width: min(920px, calc(100% - 24px));
+  border-radius: 20px;
+  background: rgba(10,12,28,.9);
+  border: 1px solid rgba(0,255,213,.22);
+  padding: 14px;
+  position: relative;
+  box-shadow: 0 30px 90px rgba(0,0,0,.7);
+}
+
+.cp-modal-inner img{
+  width:100%;
+  max-height: 78vh;
+  object-fit: contain;
+  border-radius: 16px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+
+.cp-modal-close{
+  position:absolute;
+  top: 10px;
+  right: 10px;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,43,214,.35);
+  background: rgba(255,43,214,.12);
+  color: var(--text);
+  cursor:pointer;
+  font-weight: 900;
+}
+.cp-modal-close:hover{ filter: brightness(1.08); }

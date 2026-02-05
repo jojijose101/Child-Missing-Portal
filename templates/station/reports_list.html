@@ -1,0 +1,75 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ station.name }} - Matched Reports{% endblock %}
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+  <link rel="stylesheet" href="{% static 'css/reports_list.css' %}">
+{% endblock %}
+{% block content %}
+
+
+<div class="cp-dashboard">
+
+  <!-- Header -->
+  <div class="cp-dash-header">
+    <h2>🛰 Matched Reports</h2>
+    <div class="cp-dash-sub">
+      Reports submitted by public users
+    </div>
+  </div>
+
+  <!-- Back -->
+  <div style="margin: 10px 0;">
+    <a href="{% url 'station_dashboard' %}" class="cp-back">
+      ← Back to Dashboard
+    </a>
+  </div>
+
+  <!-- Table -->
+  <div class="cp-table-wrap">
+    <table class="cp-table">
+      <thead>
+        <tr>
+          <th>Reporter</th>
+          <th>Phone</th>
+          <th>Found Location</th>
+          <th>Matched Child</th>
+          <th>Distance (km)</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for r in reports %}
+        <tr onclick="window.location='{% url 'station_report_detail' r.id %}'">
+          <td class="cp-child">{{ r.reporter_name }}</td>
+          <td>{{ r.reporter_phone }}</td>
+          <td>{{ r.found_location }}</td>
+          <td>{{ r.matched_case.child_name }}</td>
+          <td>{{ r.distance|floatformat:4 }}</td>
+          <td>
+            {% if not r.is_seen_by_station %}
+              <span class="cp-badge cp-new-badge">NEW</span>
+            {% else %}
+              <span class="cp-badge cp-seen">SEEN</span>
+            {% endif %}
+          </td>
+          <td class="cp-date">{{ r.created_at|date:"d M Y, H:i" }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="7" class="cp-empty">
+            No matched reports yet.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

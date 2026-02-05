@@ -1,0 +1,88 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Add Missing Child Case{% endblock %}
+
+{% block link %}
+  <link rel="stylesheet" href="{% static 'css/add_case.css' %}">
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+{% endblock %}
+{% block content %}
+
+
+<div class="cp-auth-wrap">
+  <div class="cp-auth-card">
+
+    <!-- Back -->
+    <a href="{% url 'station_dashboard' %}" class="cp-back">
+      ← Back to Dashboard
+    </a>
+
+    <h2 class="cp-auth-title">🧒 Add Missing Child Case</h2>
+
+    {% if error %}
+      <div class="cp-alert cp-alert-error">{{ error }}</div>
+    {% endif %}
+
+    {% if msg %}
+      <div class="cp-alert cp-alert-success">{{ msg }}</div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="cp-form">
+      {% csrf_token %}
+
+      <div class="cp-field">
+        <input type="text" name="child_name" required placeholder=" ">
+        <label>Child Name</label>
+      </div>
+
+      <div class="cp-field">
+        <input type="number" name="age" placeholder=" ">
+        <label>Age (optional)</label>
+      </div>
+
+      <div class="cp-field">
+        <input type="text" name="last_seen_location" required placeholder=" ">
+        <label>Last Seen Location</label>
+      </div>
+
+      <div class="cp-field">
+        <textarea name="details" rows="3" placeholder=" "></textarea>
+        <label>Extra details (dress, marks, etc)</label>
+      </div>
+
+      <!-- FILE UPLOAD -->
+      <div class="cp-upload">
+        <input type="file" name="image" id="childImage" accept="image/*" required>
+        <label for="childImage">
+          <span class="cp-upload-icon">⬆</span>
+          <span class="cp-upload-text">Upload Child Photo</span>
+          <span class="cp-upload-sub">JPG / PNG</span>
+        </label>
+      </div>
+
+      <button class="cp-submit" type="submit">
+        Save Case
+      </button>
+    </form>
+
+  </div>
+</div>
+
+<!-- ===== CYBER PROCESSING OVERLAY ===== -->
+<div class="cp-loader" id="cpLoader">
+  <div class="cp-loader-card">
+    <div class="cp-loader-title">UPLOADING CASE</div>
+    <div class="cp-loader-line">
+      <span class="cp-loader-bar"></span>
+    </div>
+    <div class="cp-loader-sub">
+      Encrypting data • Uploading image • Saving record…
+    </div>
+    <div class="cp-loader-dots">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</div>
+<script src="{% static 'js/add_case.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,334 @@
+/* ===== Public UX Cyberpunk Pattern (Different theme) ===== */
+:root{
+  --ux-bg: #05060e;
+  --ux-text: #ecf0ff;
+  --ux-muted: rgba(236,240,255,.6);
+
+  --ux-a: #00ffd5;   /* cyan */
+  --ux-b: #ff2bd6;   /* magenta */
+  --ux-c: #ffe74a;   /* yellow */
+}
+
+.ux-wrap{
+  min-height: calc(100vh - 80px);
+  display:grid;
+  place-items:center;
+  padding: 42px 16px;
+  background:
+    radial-gradient(900px 450px at 18% 0%, rgba(255,43,214,.18), transparent 60%),
+    radial-gradient(900px 450px at 82% 10%, rgba(0,255,213,.14), transparent 60%),
+    linear-gradient(180deg, rgba(5,6,14,.8), rgba(5,6,14,1));
+  position: relative;
+  overflow:hidden;
+}
+
+/* scanlines + diagonal pattern */
+.ux-wrap::before{
+  content:"";
+  position:absolute; inset:0;
+  pointer-events:none;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.035) 0px,
+      rgba(255,255,255,.035) 1px,
+      transparent 2px,
+      transparent 6px
+    ),
+    repeating-linear-gradient(
+      135deg,
+      rgba(0,255,213,.05) 0px,
+      rgba(0,255,213,.05) 2px,
+      transparent 2px,
+      transparent 14px
+    );
+  opacity:.7;
+  mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,.9), transparent 70%);
+}
+
+.ux-card{
+  width: 100%;
+  max-width: 560px;
+  padding: 26px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(16,18,42,.88), rgba(8,10,24,.84));
+  border: 1px solid rgba(0,255,213,.25);
+  box-shadow:
+    0 0 0 1px rgba(255,43,214,.10) inset,
+    0 22px 70px rgba(0,0,0,.65);
+  position: relative;
+}
+
+.ux-card::after{
+  content:"";
+  position:absolute; inset:-2px;
+  border-radius: 24px;
+  background:
+    radial-gradient(420px 120px at 20% 0%, rgba(0,255,213,.20), transparent 60%),
+    radial-gradient(420px 120px at 80% 0%, rgba(255,43,214,.18), transparent 60%);
+  opacity:.7;
+  pointer-events:none;
+}
+
+.ux-head{
+  position: relative;
+  z-index: 1;
+  text-align:center;
+  margin-bottom: 14px;
+}
+.ux-head h2{
+  margin: 0;
+  font-size: 18px;
+  letter-spacing:.14em;
+  text-transform: uppercase;
+  color: var(--ux-text);
+  text-shadow: 0 0 20px rgba(0,255,213,.28);
+}
+.ux-sub{
+  margin: 8px 0 0;
+  color: var(--ux-muted);
+  font-size: 13px;
+}
+
+.ux-alert{
+  position: relative;
+  z-index: 1;
+  padding: 12px 14px;
+  border-radius: 14px;
+  margin: 12px 0;
+  font-size: 13px;
+}
+.ux-alert-error{
+  background: rgba(255,43,214,.12);
+  border: 1px solid rgba(255,43,214,.35);
+  color: #ff91e8;
+}
+
+.ux-form{ position: relative; z-index: 1; display:flex; flex-direction:column; gap:14px; }
+
+.ux-field{ position: relative; }
+.ux-field input,
+.ux-field textarea{
+  width:100%;
+  padding: 14px;
+  border-radius: 16px;
+  background: rgba(5,6,14,.55);
+  border: 1px solid rgba(0,255,213,.25);
+  color: var(--ux-text);
+  font-size: 14px;
+  outline:none;
+  box-shadow: 0 0 0 1px rgba(255,43,214,.07) inset;
+}
+.ux-field textarea{ resize:none; min-height: 92px; }
+
+.ux-field label{
+  position:absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0 8px;
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(16,18,42,.92), rgba(8,10,24,.86));
+  color: rgba(236,240,255,.6);
+  font-size: 12px;
+  transition: .18s ease;
+  pointer-events:none;
+}
+.ux-field input:focus,
+.ux-field textarea:focus{
+  border-color: rgba(0,255,213,.55);
+  box-shadow:
+    0 0 0 1px rgba(0,255,213,.16) inset,
+    0 0 18px rgba(0,255,213,.14),
+    0 0 18px rgba(255,43,214,.10);
+}
+.ux-field input:focus + label,
+.ux-field textarea:focus + label,
+.ux-field input:not(:placeholder-shown) + label,
+.ux-field textarea:not(:placeholder-shown) + label{
+  top: -8px;
+  transform: translateY(0);
+  font-size: 10px;
+  color: var(--ux-a);
+  text-shadow: 0 0 14px rgba(0,255,213,.25);
+  border: 1px solid rgba(0,255,213,.18);
+}
+
+/* Upload box */
+.ux-upload input{ display:none; }
+.ux-upload label{
+  display:flex;
+  flex-direction:column;
+  gap: 8px;
+  padding: 18px;
+  border-radius: 18px;
+  cursor:pointer;
+  background: rgba(5,6,14,.48);
+  border: 1px dashed rgba(0,255,213,.40);
+  transition: .18s ease;
+}
+.ux-upload label:hover{
+  border-color: rgba(255,43,214,.55);
+  background: rgba(255,43,214,.06);
+}
+.ux-upload-top{
+  display:flex;
+  gap: 10px;
+  align-items:center;
+}
+.ux-chip{
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing:.16em;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(0,255,213,.12);
+  border: 1px solid rgba(0,255,213,.35);
+  color: var(--ux-a);
+  text-shadow: 0 0 14px rgba(0,255,213,.25);
+}
+.ux-chip2{
+  background: rgba(255,43,214,.12);
+  border-color: rgba(255,43,214,.35);
+  color: var(--ux-b);
+  text-shadow: 0 0 14px rgba(255,43,214,.22);
+}
+.ux-upload-mid{ font-weight: 900; letter-spacing:.08em; color: var(--ux-text); font-size: 13px; }
+.ux-upload-sub{ color: rgba(236,240,255,.6); font-size: 12px; }
+
+/* Button */
+.ux-btn{
+  width:100%;
+  padding: 14px;
+  border-radius: 18px;
+  border: none;
+  cursor:pointer;
+  font-weight: 1000;
+  letter-spacing:.14em;
+  text-transform: uppercase;
+  color: #071018;
+  background: linear-gradient(135deg, var(--ux-a), var(--ux-b));
+  box-shadow: 0 14px 34px rgba(255,43,214,.18), 0 0 18px rgba(0,255,213,.18);
+  transition:.15s ease;
+}
+.ux-btn:hover{ transform: translateY(-1px); filter: brightness(1.05); }
+.ux-btn:active{ transform: translateY(0); }
+
+.ux-mini{
+  margin: 6px 0 0;
+  text-align:center;
+  font-size: 12px;
+  color: rgba(236,240,255,.55);
+}
+
+/* ===== CYBER MATCHING OVERLAY ===== */
+.ux-match{
+  position: fixed;
+  inset: 0;
+  display:none;
+  place-items:center;
+  background: rgba(0,0,0,.74);
+  backdrop-filter: blur(10px);
+  z-index: 99999;
+}
+.ux-match.is-show{ display:grid; }
+
+.ux-match-card{
+  width: min(560px, calc(100% - 30px));
+  padding: 22px;
+  border-radius: 22px;
+  background: linear-gradient(180deg, rgba(16,18,42,.95), rgba(8,10,24,.9));
+  border: 1px solid rgba(0,255,213,.25);
+  box-shadow: 0 30px 90px rgba(0,0,0,.75);
+}
+
+.ux-match-title{
+  font-weight: 1000;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  font-size: 14px;
+  color: var(--ux-text);
+  text-shadow: 0 0 18px rgba(0,255,213,.25);
+}
+
+/* scan box */
+.ux-scanbox{
+  position: relative;
+  margin-top: 14px;
+  height: 180px;
+  border-radius: 18px;
+  overflow:hidden;
+  background: rgba(5,6,14,.55);
+  border: 1px solid rgba(0,255,213,.18);
+}
+.ux-grid{
+  position:absolute; inset:0;
+  background:
+    linear-gradient(to right, rgba(0,255,213,.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,43,214,.06) 1px, transparent 1px);
+  background-size: 36px 36px;
+  opacity: .7;
+}
+.ux-target{
+  position:absolute; inset:0;
+  background:
+    radial-gradient(circle at 50% 50%, rgba(255,231,74,.12), transparent 55%);
+  opacity: .9;
+}
+.ux-scanline{
+  position:absolute;
+  left:0; right:0;
+  height: 6px;
+  background: linear-gradient(90deg, transparent, var(--ux-a), var(--ux-b), transparent);
+  filter: blur(.2px);
+  box-shadow: 0 0 18px rgba(0,255,213,.25);
+  animation: uxScan 1.1s infinite ease-in-out;
+}
+@keyframes uxScan{
+  0%{ top: -10px; opacity: .6; }
+  50%{ opacity: 1; }
+  100%{ top: 190px; opacity: .75; }
+}
+
+.ux-match-steps{
+  margin-top: 12px;
+  display:grid;
+  gap: 6px;
+  color: rgba(236,240,255,.7);
+  font-size: 12px;
+}
+.ux-step{
+  display:flex; align-items:center; gap: 10px;
+  letter-spacing:.02em;
+}
+.ux-dot{
+  width: 8px; height: 8px; border-radius: 50%;
+  background: var(--ux-a);
+  box-shadow: 0 0 14px rgba(0,255,213,.25);
+  animation: uxDot 1s infinite ease-in-out;
+}
+@keyframes uxDot{
+  0%,100%{ opacity:.45; transform: translateY(0); }
+  50%{ opacity:1; transform: translateY(-3px); }
+}
+
+/* progress bar */
+.ux-progress{
+  margin-top: 14px;
+  height: 12px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(0,255,213,.14);
+  overflow:hidden;
+}
+.ux-progress-bar{
+  display:block;
+  height:100%;
+  width: 35%;
+  background: linear-gradient(90deg, var(--ux-a), var(--ux-b));
+  animation: uxProg 1.1s infinite ease-in-out;
+}
+@keyframes uxProg{
+  from{ transform: translateX(-120%); }
+  to{ transform: translateX(320%); }
+}

@@ -1,0 +1,191 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  
+
+<div class="cp-auth-wrap">
+  <div class="cp-auth-card">
+
+    <h2 class="cp-auth-title">⚡ Police Station Portal</h2>
+
+    <!-- Tabs -->
+    <div class="cp-tabs" role="tablist">
+      <button type="button"
+              class="cp-tab {% if open != 'signup' %}is-active{% endif %}"
+              data-target="#cpLogin"
+              aria-selected="{% if open != 'signup' %}true{% else %}false{% endif %}">
+        Login
+      </button>
+
+      <button type="button"
+              class="cp-tab {% if open == 'signup' %}is-active{% endif %}"
+              data-target="#cpSignup"
+              aria-selected="{% if open == 'signup' %}true{% else %}false{% endif %}">
+        Signup
+      </button>
+
+      <span class="cp-tab-glow" aria-hidden="true"></span>
+    </div>
+
+    <!-- ================= LOGIN ================= -->
+    <section id="cpLogin"
+             class="cp-panel {% if open != 'signup' %}is-active{% endif %}"
+             {% if open == 'signup' %}hidden{% endif %}>
+
+      {% if login_error %}
+        <div class="cp-alert cp-alert-error">{{ login_error }}</div>
+      {% endif %}
+
+      <form method="post" class="cp-form" action="{% url 'station_login' %}">
+        {% csrf_token %}
+
+        <div class="cp-field">
+          <input type="text" name="username" required placeholder=" ">
+          <label>Username</label>
+        </div>
+
+        <div class="cp-field">
+          <input type="password" name="password" required placeholder=" ">
+          <label>Password</label>
+        </div>
+
+        <button class="cp-submit" type="submit">Login</button>
+
+        <div class="cp-auth-hint">
+          New station?
+          <button type="button"
+                  class="cp-link-btn"
+                  data-switch="#cpSignup">
+            Create account
+          </button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ================= SIGNUP ================= -->
+    <section id="cpSignup"
+             class="cp-panel {% if open == 'signup' %}is-active{% endif %}"
+             {% if open != 'signup' %}hidden{% endif %}>
+
+      {% if error %}
+        <div class="cp-alert cp-alert-error">{{ error }}</div>
+      {% endif %}
+
+      {% if msg %}
+        <div class="cp-alert cp-alert-success">{{ msg }}</div>
+      {% endif %}
+
+      <form method="post" class="cp-form" action="{% url 'station_signup' %}">
+        {% csrf_token %}
+
+        <div class="cp-form-section">
+          <h3>Station Details</h3>
+
+          <div class="cp-field">
+            <input type="text" name="station_name" required placeholder=" ">
+            <label>Station Name</label>
+          </div>
+
+          <div class="cp-field">
+            <textarea name="address" rows="3" required placeholder=" "></textarea>
+            <label>Address</label>
+          </div>
+
+          <div class="cp-field">
+            <input type="text" name="phone" required placeholder=" ">
+            <label>Phone</label>
+          </div>
+
+          <div class="cp-field">
+            <input type="email" name="email" placeholder=" ">
+            <label>Email (optional)</label>
+          </div>
+        </div>
+
+        <div class="cp-form-section">
+          <h3>Login Details</h3>
+
+          <div class="cp-field">
+            <input type="text" name="username" required placeholder=" ">
+            <label>Username</label>
+          </div>
+
+          <div class="cp-field">
+            <input type="password" name="password1" required placeholder=" ">
+            <label>Password</label>
+          </div>
+
+          <div class="cp-field">
+            <input type="password" name="password2" required placeholder=" ">
+            <label>Confirm Password</label>
+          </div>
+        </div>
+
+        <button class="cp-submit" type="submit">
+          Create Station Account
+        </button>
+
+        <div class="cp-auth-hint">
+          Already have an account?
+          <button type="button"
+                  class="cp-link-btn"
+                  data-switch="#cpLogin">
+            Login
+          </button>
+        </div>
+      </form>
+    </section>
+
+  </div>
+</div>
+
+<!-- ================= TOGGLE JS ================= -->
+<script>
+(() => {
+  const tabs = document.querySelectorAll(".cp-tab");
+  const glow = document.querySelector(".cp-tab-glow");
+  const panels = document.querySelectorAll(".cp-panel");
+
+  function openPanel(selector){
+    const panel = document.querySelector(selector);
+    if (!panel) return;
+
+    panels.forEach(p => {
+      p.classList.remove("is-active");
+      p.hidden = true;
+    });
+
+    panel.classList.add("is-active");
+    panel.hidden = false;
+
+    tabs.forEach((t, idx) => {
+      const active = t.getAttribute("data-target") === selector;
+      t.classList.toggle("is-active", active);
+      t.setAttribute("aria-selected", String(active));
+      if (active && glow) glow.style.transform = `translateX(${idx * 100}%)`;
+    });
+  }
+
+  tabs.forEach(btn =>
+    btn.addEventListener("click", () => openPanel(btn.dataset.target))
+  );
+
+  document.querySelectorAll("[data-switch]").forEach(b =>
+    b.addEventListener("click", () => openPanel(b.dataset.switch))
+  );
+
+  // ✅ SERVER CONTROLLED OPEN
+  const serverOpen = "{{ open|default:'login' }}";
+  openPanel(serverOpen === "signup" ? "#cpSignup" : "#cpLogin");
+})();
+</script>
+</body>
+</html>
